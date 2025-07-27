@@ -2,8 +2,10 @@ name: 🔁 Test Hotfix Flow
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-
+    types: [opened, edited, synchronize]
+    branches:
+      - master
+      - main
 
 permissions:
   contents: write
@@ -32,6 +34,7 @@ jobs:
       pr_number: ${{ github.event.pull_request.number }}
       pr_title: ${{ github.event.pull_request.title }}
       source_branch: ${{ github.head_ref }}
-      merge_mode: ${{ fromJSON(github.event.pull_request.body).merge_mode || 'ff' }}
-      tag: ${{ fromJSON(github.event.pull_request.body).tag || '' }}
-      branches: ${{ join(fromJSON(github.event.pull_request.body).branches || ['staging','qa','dev'], ',') }}
+      merge_mode: ${{ fromJSON(github.event.pull_request.body).merge_mode }}
+      tag: ${{ fromJSON(github.event.pull_request.body).tag }}
+      branches: ${{ fromJSON(github.event.pull_request.body).branches }}
+
