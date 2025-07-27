@@ -3,9 +3,6 @@ name: 🔁 Test Hotfix Flow
 on:
   pull_request:
     types: [opened, edited, synchronize]
-    branches:
-      - master
-      - main
 
 permissions:
   contents: write
