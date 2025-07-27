@@ -11,9 +11,14 @@ permissions:
 jobs:
   sync-meta:
     runs-on: ubuntu-latest
+    outputs:
+      merge_mode: ${{ steps.meta.outputs.merge_mode }}
+      tag: ${{ steps.meta.outputs.tag }}
+      branches: ${{ steps.meta.outputs.branches }}
 
     steps:
       - name: 🚦 Sync Metadata from PR
+        id: meta
         uses: b3bb0/sync-hotfix-meta@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -26,7 +31,6 @@ jobs:
       pr_number: ${{ github.event.pull_request.number }}
       pr_title: ${{ github.event.pull_request.title }}
       source_branch: ${{ github.head_ref }}
-      merge_mode: ${{ fromJSON(github.event.pull_request.body).merge_mode }}
-      tag: ${{ fromJSON(github.event.pull_request.body).tag }}
-      branches: ${{ fromJSON(github.event.pull_request.body).branches }}
-
+      merge_mode: ${{ needs.sync-meta.outputs.merge_mode }}
+      tag: ${{ needs.sync-meta.outputs.tag }}
+      branches: ${{ needs.sync-meta.outputs.branches }}
