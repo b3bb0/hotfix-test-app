@@ -20,7 +20,7 @@ jobs:
   run-hotfix-handler:
     needs: sync-meta
     if: startsWith(github.head_ref, 'hotfix/')
-    uses: b3bb0/action-hotfix-handler/.github/workflows/hotfix-handler.yml@v1
+    uses: b3bb0/action-hotfix-handler/hotfix-handler.yml@v1
     with:
       pr_number: ${{ github.event.pull_request.number }}
       pr_title: ${{ github.event.pull_request.title }}
