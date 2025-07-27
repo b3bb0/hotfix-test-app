@@ -24,4 +24,4 @@ jobs:
       source_branch: ${{ github.head_ref }}
       merge_mode: ${{ fromJSON(github.event.pull_request.body || '{}').merge_mode || 'ff' }}
       tag: ${{ fromJSON(github.event.pull_request.body || '{}').tag || '' }}
-      branches: ${{ fromJSON(github.event.pull_request.body || '{}').branches || 'staging,qa,dev' }}
+      branches: ${{ fromJSON(github.event.pull_request.body || '{}').branches }}
