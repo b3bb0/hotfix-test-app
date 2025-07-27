@@ -16,11 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔑 Set up GitHub CLI
-        uses: cli/gh-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: 🚦 Sync Metadata from PR
         uses: b3bb0/sync-hotfix-meta@v1
         with:
