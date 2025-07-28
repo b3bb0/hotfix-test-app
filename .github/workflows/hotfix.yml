@@ -1,30 +1,21 @@
+
 name: 🔁 Test Hotfix Flow
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
-      - master
+    types: [opened, edited, synchronize]
+    
+  
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  sync-meta:
+  call-hotfix-handler:
     if: startsWith(github.head_ref, 'hotfix/')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: b3bb0/sync-hotfix-meta@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  run-hotfix-handler:
-    needs: sync-meta
-    if: startsWith(github.head_ref, 'hotfix/')
-    uses: b3bb0/action-hotfix-handler/.github/workflows/hotfix-handler.yml@v1
+    uses: b3bb0/action-hotfix-handler/.github/workflows/final.yml@v1
     with:
       pr_number: ${{ github.event.pull_request.number }}
       pr_title: ${{ github.event.pull_request.title }}
       source_branch: ${{ github.head_ref }}
-      merge_mode: ${{ fromJSON(github.event.pull_request.body || '{}').merge_mode || 'ff' }}
-      tag: ${{ fromJSON(github.event.pull_request.body || '{}').tag || '' }}
-      branches: ${{ fromJSON(github.event.pull_request.body || '{}').branches || 'staging,qa,dev' }}
